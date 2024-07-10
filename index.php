@@ -16,7 +16,7 @@
         <hr>
         <div class="row p-1">
             <div class="col-lg-12 ">
-                <form class="row">
+                <form class="row" method="post" action="add-data.php">
                     <div class="mb-3 col-lg-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" placeholder="Enter here" id="name" name="name">
@@ -31,7 +31,6 @@
                     </div>
                     <div class="col-lg-3 p-x-3 p-md-2 text-center">
                         <button type="submit" name="add-user" class="btn btn-primary mt-md-4 mt-1 w-75">Add User</button>
-
                     </div>
                 </form>
             </div>
@@ -52,16 +51,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Ali</td>
-                        <td>ali@gamil.com</td>
-                        <td>Lodhran</td>
-                        <td>
-                            <a href="" type="button" class="btn btn-warning btn-sm me-1"> Edit </a>
-                            <a href="" type="button" class="btn btn-danger btn-sm"> Delete </a>
-                        </td>
-                    </tr>
 
+                    <?php
+                    require("./database.php");
+
+                    $crud = new crud();
+                    $select_result = $crud->selectAll("users");
+
+                    while ($fetch_data = mysqli_fetch_assoc($select_result)) {
+
+                    ?>
+
+                        <tr>
+                            <td><?= $fetch_data['name'] ?></td>
+                            <td><?= $fetch_data['email'] ?></td>
+                            <td><?= $fetch_data['city'] ?></td>
+                            <td>
+                                <a href="edit-form.php?id=<?= $fetch_data['id'] ?>" type="button" class="btn btn-warning btn-sm me-1"> Edit </a>
+                                <a href="delete-data.php?id=<?= $fetch_data['id'] ?>" type="button" class="btn btn-danger btn-sm"> Delete </a>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
